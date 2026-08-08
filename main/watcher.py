@@ -1,6 +1,9 @@
 from watchdog.observers import Observer 
 from watchdog.events import FileSystemEventHandler
+from pathlib import Path
 import time
+
+
 class SentinelEventHandler(FileSystemEventHandler):
 
     def on_created(self, event):
@@ -8,6 +11,7 @@ class SentinelEventHandler(FileSystemEventHandler):
             return
 
         print (f"New File: {event.src_path}")
+    
 
 class SentinelWatcher:
 
@@ -20,7 +24,7 @@ class SentinelWatcher:
         self.observer.schedule(
             self.handler,
             path = self.inbox_path,
-            recursive=False
+            recursive= True #changed this to make it so it checks all folders
         )
 
         self.observer.start()
@@ -28,3 +32,23 @@ class SentinelWatcher:
     def stop(self):
         self.observer.stop()
         self.observer.join()
+
+
+
+# GETTING THE CURRENT DIRECTORY
+
+current_directory = Path.cwd()
+
+
+# STARTING WATCHER
+
+watcher = SentinelWatcher(current_directory)
+watcher.start()
+print(f"Watching: {current_directory}")
+
+
+try:
+    watcher.observer.join()
+
+except KeyboardInterrupt:
+    watcher.stop()
