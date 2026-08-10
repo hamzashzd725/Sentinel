@@ -45,7 +45,7 @@ class SentinelWatcher:
         self.observer.schedule(
             self.handler,
             path = self.inbox_path,
-            recursive= True #changed this to make it so it checks all folders
+            recursive= False
         )
 
         self.observer.start()
@@ -56,9 +56,9 @@ class SentinelWatcher:
 
 
 
-# GETTING THE CURRENT DIRECTORY
-
-current_directory = Path.cwd()
+# GETTING THE INBOX DIRECTORY
+BASE_DIR = Path(__file__).resolve().parent.parent
+current_directory = BASE_DIR / "Inbox"
 
 
 # STARTING WATCHER
