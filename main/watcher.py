@@ -2,6 +2,7 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from pathlib import Path
 import time
+import os
 
 
 class SentinelEventHandler(FileSystemEventHandler):
@@ -11,6 +12,26 @@ class SentinelEventHandler(FileSystemEventHandler):
             return
 
         print (f"New File: {event.src_path}")
+        
+        
+        previous_size = -1
+
+        while True:
+            try:
+                current_size = os.path.getsize(event.src_path)
+
+                if current_size == previous_size:
+                    break
+
+                previous_size = current_size
+                time.sleep(1)
+
+            except FileNotFoundError:
+                time.sleep(1)
+
+        print("File transfer finished!")
+        
+    
     
 
 class SentinelWatcher:
