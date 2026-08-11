@@ -1,6 +1,8 @@
 import time
 from watcher import SentinelWatcher
 from pathlib import Path
+from watcher import FileRecord
+
 
 
 # GETTING THE INBOX DIRECTORY
@@ -17,3 +19,7 @@ try:
         time.sleep(1)
 except KeyboardInterrupt:
     watcher.stop()
+
+
+
+

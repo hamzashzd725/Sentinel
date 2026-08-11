@@ -2,6 +2,7 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from pathlib import Path 
 from datetime import datetime
+from logger import Filelogger #temp
 import time
 import os
 
@@ -14,6 +15,7 @@ class SentinelWatcher:
         self.inbox_path = inbox_path
         self.observer = Observer()
         self.handler = SentinelEventHandler()
+        
 
     def start(self):
         self.observer.schedule(
@@ -43,10 +45,14 @@ class SentinelEventHandler(FileSystemEventHandler):
         )
 
         file.wait_until_finished()
+        
+        
+        logger = Filelogger("sentinel.txt") #temp
+        logger.log_file(file) #temp
 
         file.display()
 
- #creates the filerecord which will be further used
+#creates the filerecord which will be further used
 class FileRecord:
 
     def __init__(self, file_path, event_type):
