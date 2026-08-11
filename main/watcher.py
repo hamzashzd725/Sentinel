@@ -1,7 +1,10 @@
 from watchdog.observers import Observer 
 from watchdog.events import FileSystemEventHandler
+from pathlib import Path 
+from datetime import datetime
 import time
 import os
+
 
 
 
@@ -30,34 +33,59 @@ class SentinelWatcher:
 class SentinelEventHandler(FileSystemEventHandler):
 
     def on_created(self, event):
+
         if event.is_directory:
             return
 
-        print (f"New File: {event.src_path}")
-        
-        
+        file = FileRecord(
+            event.src_path,
+            "Created"
+        )
+
+        file.wait_until_finished()
+
+        file.display()
+
+ #creates the filerecord which will be further used
+class FileRecord:
+
+    def __init__(self, file_path, event_type):
+        self.path = Path(file_path)
+        self.event = event_type
+
+        self.name = self.path.name
+        self.extension = self.path.suffix.lstrip(".").upper()
+        self.timestamp = datetime.now()
+
+        self.size = self.path.stat().st_size
+
+    def wait_until_finished(self):
+
         previous_size = -1
+        stable_checks = 0
 
-        while True:
-            try:
-                current_size = os.path.getsize(event.src_path)
+        while stable_checks < 3:
 
-                if current_size == previous_size:
-                    break
+            current_size = self.path.stat().st_size
 
-                previous_size = current_size
-                time.sleep(1)
+            if current_size == previous_size:
+                stable_checks += 1
+            else:
+                stable_checks = 0
 
-            except FileNotFoundError:
-                time.sleep(1)
+            previous_size = current_size
 
-        print("File transfer finished!")
-        
-    
-    
+            time.sleep(1)
 
+        self.size = self.path.stat().st_size
 
+    def display(self):
 
-
-
-
+        print(f"""
+            Path: {self.path}
+            Filename: {self.name}
+            Extension: {self.extension}
+            Size: {self.size} bytes
+            Timestamp: {self.timestamp.strftime("%d-%m-%Y %H:%M:%S")}
+            Event: {self.event}
+            """)
