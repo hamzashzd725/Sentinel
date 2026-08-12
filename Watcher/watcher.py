@@ -5,6 +5,7 @@ from pathlib import Path
 from datetime import datetime
 from .logger import Filelogger #temp
 from .readiness import ReadinessChecker
+from Queue.queue import FileQueue
 
 
 class SentinelWatcher:
@@ -12,10 +13,15 @@ class SentinelWatcher:
     def __init__(self, inbox_path):
         self.inbox_path = inbox_path
         self.observer = Observer()
-        self.handler = SentinelEventHandler()
+
+        self.file_queue = FileQueue()
+
+        self.handler = SentinelEventHandler(self.file_queue)
         
 
     def start(self):
+        self.file_queue.start()
+        
         self.observer.schedule(
             self.handler,
             path = self.inbox_path,
@@ -32,6 +38,9 @@ class SentinelWatcher:
 
 class SentinelEventHandler(FileSystemEventHandler):
 
+    def __init__(self, file_queue):
+        self.file_queue = file_queue
+
     def on_created(self, event):
 
         if event.is_directory:
@@ -42,27 +51,7 @@ class SentinelEventHandler(FileSystemEventHandler):
             "Created"
         )
 
-        thread = Thread(
-            target=self.process_file,
-            args=(file,)
-        )
-
-        thread.start()
-
-    def process_file(self, file):
-
-        print(f"Started processing: {file.name}")
-        checker = ReadinessChecker()
-
-        checker.wait_until_ready(file)
-
-        print(f"Finished waiting: {file.name}")
-
-        logger = Filelogger("sentinel.txt")
-
-        logger.log_file(file)
-
-        file.display()
+        self.file_queue.add(file)
         
         
         
