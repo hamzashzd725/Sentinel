@@ -3,6 +3,7 @@ from watchdog.events import FileSystemEventHandler
 from pathlib import Path 
 from datetime import datetime
 from logger import Filelogger #temp
+from readiness import ReadinessChecker
 import time
 import os
 
@@ -44,7 +45,8 @@ class SentinelEventHandler(FileSystemEventHandler):
             "Created"
         )
 
-        file.wait_until_finished()
+        checker = ReadinessChecker()
+        checker.wait_until_ready(file)
         
         
         logger = Filelogger("sentinel.txt") #temp

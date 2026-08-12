@@ -38,3 +38,51 @@ Size: 57411 bytes
 Timestamp: 12-08-2026 00:29:45
 Event: Created
 ------------------------------
+
+Path: /home/hamza/Documents/Sentinel/Inbox/16486403_3840_2160_30fps.mp4
+Filename: 16486403_3840_2160_30fps.mp4
+Extension: MP4
+Size: 58987185 bytes
+Timestamp: 12-08-2026 11:35:16
+Event: Created
+------------------------------
+
+Path: /home/hamza/Documents/Sentinel/Inbox/test.bin
+Filename: test.bin
+Extension: BIN
+Size: 0 bytes
+Timestamp: 12-08-2026 11:40:53
+Event: Created
+------------------------------
+
+Path: /home/hamza/Documents/Sentinel/Inbox/test.bin
+Filename: test.bin
+Extension: BIN
+Size: 0 bytes
+Timestamp: 12-08-2026 11:44:40
+Event: Created
+------------------------------
+
+Path: /home/hamza/Documents/Sentinel/Inbox/test.bin
+Filename: test.bin
+Extension: BIN
+Size: 0 bytes
+Timestamp: 12-08-2026 11:46:24
+Event: Created
+------------------------------
+
+Path: /home/hamza/Documents/Sentinel/Inbox/test.bin
+Filename: test.bin
+Extension: BIN
+Size: 0 bytes
+Timestamp: 12-08-2026 11:46:54
+Event: Created
+------------------------------
+
+Path: /home/hamza/Documents/Sentinel/Inbox/test.bin
+Filename: test.bin
+Extension: BIN
+Size: 0 bytes
+Timestamp: 12-08-2026 11:47:32
+Event: Created
+------------------------------
