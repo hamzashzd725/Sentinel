@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run Sentinel",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "main.main",
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
