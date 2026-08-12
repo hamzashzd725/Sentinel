@@ -3,8 +3,8 @@ from watchdog.events import FileSystemEventHandler
 from threading import Thread
 from pathlib import Path 
 from datetime import datetime
-from logger import Filelogger #temp
-from readiness import ReadinessChecker
+from .logger import Filelogger #temp
+from .readiness import ReadinessChecker
 
 
 class SentinelWatcher:
@@ -63,6 +63,9 @@ class SentinelEventHandler(FileSystemEventHandler):
         logger.log_file(file)
 
         file.display()
+        
+        
+        
 #creates the filerecord which will be further used
 class FileRecord:
 

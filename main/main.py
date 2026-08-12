@@ -1,7 +1,7 @@
 import time
-from watcher import SentinelWatcher
 from pathlib import Path
-from watcher import FileRecord
+from Watcher.watcher import SentinelWatcher
+
 
 
 
