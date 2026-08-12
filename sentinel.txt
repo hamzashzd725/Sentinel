@@ -86,3 +86,51 @@ Size: 0 bytes
 Timestamp: 12-08-2026 11:47:32
 Event: Created
 ------------------------------
+
+Path: /home/hamza/Documents/Sentinel/Inbox/16392321_1920_1080_30fps.mp4
+Filename: 16392321_1920_1080_30fps.mp4
+Extension: MP4
+Size: 6114629 bytes
+Timestamp: 12-08-2026 12:11:07
+Event: Created
+------------------------------
+
+Path: /home/hamza/Documents/Sentinel/Inbox/16574220_3840_2160_30fps.mp4
+Filename: 16574220_3840_2160_30fps.mp4
+Extension: MP4
+Size: 67493059 bytes
+Timestamp: 12-08-2026 12:11:07
+Event: Created
+------------------------------
+
+Path: /home/hamza/Documents/Sentinel/Inbox/16321206_1920_1080_30fps.mp4
+Filename: 16321206_1920_1080_30fps.mp4
+Extension: MP4
+Size: 0 bytes
+Timestamp: 12-08-2026 12:11:07
+Event: Created
+------------------------------
+
+Path: /home/hamza/Documents/Sentinel/Inbox/16321206_1920_1080_30fps.mp4
+Filename: 16321206_1920_1080_30fps.mp4
+Extension: MP4
+Size: 6478894 bytes
+Timestamp: 12-08-2026 12:18:27
+Event: Created
+------------------------------
+
+Path: /home/hamza/Documents/Sentinel/Inbox/16574220_3840_2160_30fps.mp4
+Filename: 16574220_3840_2160_30fps.mp4
+Extension: MP4
+Size: 67493059 bytes
+Timestamp: 12-08-2026 12:18:27
+Event: Created
+------------------------------
+
+Path: /home/hamza/Documents/Sentinel/Inbox/16392321_1920_1080_30fps.mp4
+Filename: 16392321_1920_1080_30fps.mp4
+Extension: MP4
+Size: 6114629 bytes
+Timestamp: 12-08-2026 12:18:27
+Event: Created
+------------------------------

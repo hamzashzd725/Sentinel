@@ -1,13 +1,10 @@
 from watchdog.observers import Observer 
 from watchdog.events import FileSystemEventHandler
+from threading import Thread
 from pathlib import Path 
 from datetime import datetime
 from logger import Filelogger #temp
 from readiness import ReadinessChecker
-import time
-import os
-
-
 
 
 class SentinelWatcher:
@@ -45,15 +42,27 @@ class SentinelEventHandler(FileSystemEventHandler):
             "Created"
         )
 
+        thread = Thread(
+            target=self.process_file,
+            args=(file,)
+        )
+
+        thread.start()
+
+    def process_file(self, file):
+
+        print(f"Started processing: {file.name}")
         checker = ReadinessChecker()
+
         checker.wait_until_ready(file)
-        
-        
-        logger = Filelogger("sentinel.txt") #temp
-        logger.log_file(file) #temp
+
+        print(f"Finished waiting: {file.name}")
+
+        logger = Filelogger("sentinel.txt")
+
+        logger.log_file(file)
 
         file.display()
-
 #creates the filerecord which will be further used
 class FileRecord:
 
@@ -64,26 +73,6 @@ class FileRecord:
         self.name = self.path.name
         self.extension = self.path.suffix.lstrip(".").upper()
         self.timestamp = datetime.now()
-
-        self.size = self.path.stat().st_size
-
-    def wait_until_finished(self):
-
-        previous_size = -1
-        stable_checks = 0
-
-        while stable_checks < 3:
-
-            current_size = self.path.stat().st_size
-
-            if current_size == previous_size:
-                stable_checks += 1
-            else:
-                stable_checks = 0
-
-            previous_size = current_size
-
-            time.sleep(1)
 
         self.size = self.path.stat().st_size
 
