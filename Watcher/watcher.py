@@ -1,53 +1,43 @@
-from watchdog.observers import Observer 
+from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
-from threading import Thread
-from pathlib import Path 
-from datetime import datetime
-from .logger import Filelogger #temp
-from .readiness import ReadinessChecker
-from .readiness import ReadinessWorker
-from Queue.queue import FileQueue
+
+from .filerecord import FileRecord
 
 
 class SentinelWatcher:
 
-    def __init__(self, inbox_path):
-        
+    def __init__(self, inbox_path, output_queue):
+
         self.inbox_path = inbox_path
+        self.output_queue = output_queue
+
         self.observer = Observer()
 
-        self.file_queue = FileQueue()
-
-        self.readiness_worker = ReadinessWorker(
-            self.file_queue
-    )
-
         self.handler = SentinelEventHandler(
-            self.readiness_worker
-    )
-        
+            self.output_queue
+        )
 
     def start(self):
-        self.readiness_worker.start()
 
         self.observer.schedule(
             self.handler,
             path=self.inbox_path,
             recursive=False
-    )
+        )
 
         self.observer.start()
-    
+
     def stop(self):
+
         self.observer.stop()
         self.observer.join()
 
 
-
 class SentinelEventHandler(FileSystemEventHandler):
 
-    def __init__(self, readiness_worker):
-        self.readiness_worker = readiness_worker
+    def __init__(self, output_queue):
+
+        self.output_queue = output_queue
 
     def on_created(self, event):
 
@@ -59,30 +49,4 @@ class SentinelEventHandler(FileSystemEventHandler):
             "Created"
         )
 
-        self.readiness_worker.add(file)
-        
-        
-        
-#creates the filerecord which will be further used
-class FileRecord:
-
-    def __init__(self, file_path, event_type):
-        self.path = Path(file_path)
-        self.event = event_type
-
-        self.name = self.path.name
-        self.extension = self.path.suffix.lstrip(".").upper()
-        self.timestamp = datetime.now()
-
-        self.size = self.path.stat().st_size
-
-    def display(self):
-
-        print(f"""
-            Path: {self.path}
-            Filename: {self.name}
-            Extension: {self.extension}
-            Size: {self.size} bytes
-            Timestamp: {self.timestamp.strftime("%d-%m-%Y %H:%M:%S")}
-            Event: {self.event}
-            """)
+        self.output_queue.put(file)

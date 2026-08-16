@@ -6,9 +6,8 @@ class FileQueue:
     def __init__(self):
         self.queue = Queue()
 
-    def add(self, file):
+    def put(self, file):
         self.queue.put(file)
-        print(f"Added to queue: {file.name}")
 
     def get(self):
         return self.queue.get()
