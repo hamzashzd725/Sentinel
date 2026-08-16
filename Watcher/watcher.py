@@ -5,28 +5,36 @@ from pathlib import Path
 from datetime import datetime
 from .logger import Filelogger #temp
 from .readiness import ReadinessChecker
+from .readiness import ReadinessWorker
 from Queue.queue import FileQueue
 
 
 class SentinelWatcher:
 
     def __init__(self, inbox_path):
+        
         self.inbox_path = inbox_path
         self.observer = Observer()
 
         self.file_queue = FileQueue()
 
-        self.handler = SentinelEventHandler(self.file_queue)
+        self.readiness_worker = ReadinessWorker(
+            self.file_queue
+    )
+
+        self.handler = SentinelEventHandler(
+            self.readiness_worker
+    )
         
 
     def start(self):
-        self.file_queue.start()
-        
+        self.readiness_worker.start()
+
         self.observer.schedule(
             self.handler,
-            path = self.inbox_path,
-            recursive= False
-        )
+            path=self.inbox_path,
+            recursive=False
+    )
 
         self.observer.start()
     
@@ -38,8 +46,8 @@ class SentinelWatcher:
 
 class SentinelEventHandler(FileSystemEventHandler):
 
-    def __init__(self, file_queue):
-        self.file_queue = file_queue
+    def __init__(self, readiness_worker):
+        self.readiness_worker = readiness_worker
 
     def on_created(self, event):
 
@@ -51,7 +59,7 @@ class SentinelEventHandler(FileSystemEventHandler):
             "Created"
         )
 
-        self.file_queue.add(file)
+        self.readiness_worker.add(file)
         
         
         
