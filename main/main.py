@@ -4,6 +4,7 @@ from pathlib import Path
 from Watcher.watcher import SentinelWatcher
 from Queue.queue import FileQueue
 from Queue.readiness_worker import ReadinessWorker
+from dispatcher.dispatcher import Dispatcher
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,10 +27,15 @@ watcher = SentinelWatcher(
     detection_queue
 )
 
+dispatcher = Dispatcher(
+    ready_queue
+)
+
 
 readiness_worker.start()
 
 watcher.start()
+dispatcher.start()
 
 
 try:
